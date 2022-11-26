@@ -73,6 +73,7 @@
             <Setter Property="Template" Value="{StaticResource TextBoxTemplate}"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="5 0"/>
+            <Setter Property="Text" Value="Enter an equation"/>
         </Style>
 
         <Style TargetType="Canvas">
@@ -95,7 +96,7 @@
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox x:Name="input"/>
+            <TextBox x:Name="input" LostFocus="input_LostFocus" GotFocus="input_GotFocus"/>
             <Button Grid.Column="1" Click="Button_Click">Graph</Button>
             
         </Grid>

@@ -26,6 +26,7 @@ namespace functions_app
         public MainWindow()
         {
             InitializeComponent();
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -55,17 +56,17 @@ namespace functions_app
             }
         }
 
-        void DefineCurve() //needs negative values validation
+        void DefineCurve()
         {
-            Match circle_match = Regex.Match(equation, @"\(x-\d+\)\^2\+\(y-\d+\)\^2=\d+");
+            Match circle_match = Regex.Match(equation, @"\(x(?:-|\+)\d+\)\^2\+\(y(?:-|\+)\d+\)\^2=\d+");
             Match ellipse_match = Regex.Match(equation, @"x\^2/\d+\+y\^2/\d+=1");
-            Match ellipse_dot_match = Regex.Match(equation, @"\(x-\d+\)\^2/\d+\+\(y-\d+\)\^2/\d+=1");
+            Match ellipse_dot_match = Regex.Match(equation, @"\(x(?:-|\+)\d+\)\^2/\d+\+\(y(?:-|\+)\d+\)\^2/\d+=1");
             Match hyperbole_match = Regex.Match(equation, @"x\^2/\d+-y\^2/\d+=1");
-            Match hyperbole_dot_match = Regex.Match(equation, @"\(x-\d+\)\^2/\d+-\(y-\d+\)\^2/\d+=1");
-            Match parabola_y_match = Regex.Match(equation, @"y\^2=2\*p\*\d+");
-            Match parabola_x_match = Regex.Match(equation, @"x\^2=2\*p\*\d+");
-            Match parabola_y_dot_match = Regex.Match(equation, @"\(y-\d+\)\^2=2\*\d+\(x-\d+\)");
-            Match parabola_x_dot_match = Regex.Match(equation, @"\(x-\d+\)\^2=2\*\d+\(y-\d+\)");
+            Match hyperbole_dot_match = Regex.Match(equation, @"\(x(?:-|\+)\d+\)\^2/\d+-\(y(?:-|\+)\d+\)\^2/\d+=1");
+            Match parabola_y_match = Regex.Match(equation, @"y\^2=[-]?2\*\d+\*x");
+            Match parabola_x_match = Regex.Match(equation, @"x\^2=[-]?2\*\d+\*y");
+            Match parabola_y_dot_match = Regex.Match(equation, @"\(y(?:-|\+)\d+\)\^2=2\*\d+\(x(?:-|\+)\d+\)");
+            Match parabola_x_dot_match = Regex.Match(equation, @"\(x(?:-|\+)\d+\)\^2=2\*\d+\(y(?:-|\+)\d+\)");
 
             if (circle_match.Success) curveType = CurveType.Circle;
             else if (ellipse_match.Success || ellipse_dot_match.Success) curveType = CurveType.Ellipse;
@@ -74,40 +75,111 @@ namespace functions_app
                 parabola_x_dot_match.Success) curveType = CurveType.Parabola;
         }
 
-        void DrawCircle() //needs fix
+        void DrawCircle() //needs coordinates positioning
         {
-            int x, y, r;
-            string xstr = string.Empty, ystr = string.Empty, rstr = string.Empty;
-            var equat_splitted = equation.Split('+', '=');
-            for (int i = 0; i < equat_splitted[0].Length; i++)
-            {
-                if (i == equat_splitted[0].IndexOf(')')) break;
-                if (int.TryParse(i.ToString(), out x)) xstr += i;
-            }
-            for (int i = 0; i < equat_splitted[1].Length; i++)
-            {
-                if (i == equat_splitted[1].IndexOf(')')) break;
-                if (int.TryParse(i.ToString(), out y)) ystr += i;
-            }
-            for (int i = 0; i < equat_splitted[2].Length; i++) rstr += i;
+            var equation_splitted = equation.Split("^2");
 
-            x = int.Parse(xstr);
-            y = int.Parse(ystr);
-            r = int.Parse(rstr);
+            double x = double.Parse(Regex.Match(equation_splitted[0], @"\d+").Value);
+            double y = double.Parse(Regex.Match(equation_splitted[1], @"\d+").Value);
+            double r = Math.Sqrt(double.Parse(Regex.Match(equation_splitted[2], @"\d+").Value));
+
+            if (equation_splitted[0].Contains('+')) x *= -1;
+            if (equation_splitted[1].Contains("y+")) y *= -1;
+
+            Ellipse circle = new Ellipse();
+            circle.Stroke = Brushes.Black;
+            circle.StrokeThickness = 3;
+            circle.Width = r * 30;
+            circle.Height = r * 30;
+
+            canvas.Children.Add(circle);
         }
 
 
-        void DrawEllipse()
+        void DrawEllipse() //needs coordinate positioning
         {
+            double x, y, x0 = 0, y0 = 0;
+            if(Regex.Match(equation, @"x\^2/\d+\+y\^2/\d+=1").Success)
+            {
+                var equation_splitted = equation.Split('/', '+', '=');
+                x = Math.Sqrt(double.Parse(equation_splitted[1]));
+                y = Math.Sqrt(double.Parse(equation_splitted[3]));
+            }
+            else
+            {
+                var equation_splitted = equation.Split("^2");
+                var sub_split = equation_splitted[1].Split('(');
+                var sub_split2 = equation_splitted[2].Split('=');
 
+                x0 = double.Parse(Regex.Match(equation_splitted[0], @"\d+").Value);
+                y0 = double.Parse(Regex.Match(sub_split[1], @"\d+").Value);
+                x = Math.Sqrt(double.Parse(Regex.Match(sub_split[0], @"\d+").Value));
+                y = Math.Sqrt(double.Parse(Regex.Match(sub_split2[0], @"\d+").Value));
+
+                if (equation_splitted[0].Contains('+')) x0 *= -1;
+                if (sub_split[1].Contains('+')) y0 *= -1;
+            }
+
+            Ellipse ellipse = new Ellipse();
+            ellipse.Stroke = Brushes.Black;
+            ellipse.StrokeThickness = 3;
+            ellipse.Width = x * 30;
+            ellipse.Height = y * 30;
+
+            canvas.Children.Add(ellipse);
         }
-        void DrawHyperbole()
+        void DrawHyperbole() //needs fix
         {
+            double x, y, x0 = 0, y0 = 0;
+            if (Regex.Match(equation, @"x\^2/\d+-y\^2/\d+=1").Success)
+            {
+                var equation_splitted = equation.Split('/', '-', '=');
+                x = Math.Sqrt(double.Parse(equation_splitted[1]));
+                y = Math.Sqrt(double.Parse(equation_splitted[3]));
+            }
+            else
+            {
+                var equation_splitted = equation.Split("^2");
+                var sub_split = equation_splitted[1].Split('(');
+                var sub_split2 = equation_splitted[2].Split('=');
 
+                x0 = double.Parse(Regex.Match(equation_splitted[0], @"\d+").Value);
+                y0 = double.Parse(Regex.Match(sub_split[1], @"\d+").Value);
+                x = Math.Sqrt(double.Parse(Regex.Match(sub_split[0], @"\d+").Value));
+                y = Math.Sqrt(double.Parse(Regex.Match(sub_split2[0], @"\d+").Value));
+
+                if (equation_splitted[0].Contains('+')) x0 *= -1;
+                if (sub_split[1].Contains('+')) y0 *= -1;
+            }
+
+            Polyline polyline = new Polyline();
+            polyline.Stroke = Brushes.Black;
+            polyline.StrokeThickness = 3;
+            for (double i = x; i < 50; i++)
+            {
+                double xp = i;
+                double yp = (y * Math.Sqrt(xp * xp - x * x)) / x;
+                polyline.Points.Add(new Point(xp, yp));
+            }
+            for (double i = x; i < 50; i++)
+            {
+                double xp = i;
+                double yp = -1.0 * ((y * Math.Sqrt(xp * xp - x * x)) / x);
+                polyline.Points.Add(new Point(xp, yp));
+            }
         }
         void DrawParabola()
         {
+            input.Text = "parabola";
+        }
 
+        private void input_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(input.Text)) input.Text = "Enter an equation";
+        }
+        private void input_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (input.Text == "Enter an equation") input.Text = string.Empty;
         }
     }
 }
