@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:functions_app"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="1100"
-        Background="Black">
+        Title="MainWindow" Height="690" Width="1100"
+        Background="Black" ResizeMode="NoResize">
     <Window.Resources>
         <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type ButtonBase}">
             <Border x:Name="border" 
@@ -47,10 +47,12 @@
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="BorderBrush" TargetName="border" Value="Black"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="#7CC2C5"/>
+                    <Setter Property="Block.BorderThickness" Value="5"/>
                 </Trigger>
                 <Trigger Property="IsKeyboardFocused" Value="true">
-                    <Setter Property="BorderBrush" TargetName="border" Value="Black"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="#7CC2C5"/>
+                    <Setter Property="Block.BorderThickness" Value="5"/>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -63,7 +65,6 @@
             <Setter Property="Margin" Value="15 10"/>
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="IsDefault" Value="True"/>
             <Setter Property="Template" Value="{StaticResource ButtonTemplate}"/>
         </Style>
 
@@ -94,14 +95,181 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
 
             <TextBox x:Name="input" LostFocus="input_LostFocus" GotFocus="input_GotFocus"/>
-            <Button Grid.Column="1" Click="Button_Click">Graph</Button>
+            <Button Grid.Column="1" Click="Button_Click" IsDefault="True">Graph</Button>
+            <Button Grid.Column="2" Click="Button_Click_1">Clear</Button>
             
         </Grid>
 
-        <Canvas x:Name="canvas" Grid.Row="1"></Canvas>
+        <Canvas x:Name="canvas" Grid.Row="1" Height="540">
+
+            <Canvas Margin="0">
+                <Line Stroke="Black" StrokeThickness="0.5" X1="20" X2="20" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="40" X2="40" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="60" X2="60" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="80" X2="80" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="100" X2="100" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="120" X2="120" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="140" X2="140" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="160" X2="160" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="180" X2="180" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="200" X2="200" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="220" X2="220" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="240" X2="240" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="260" X2="260" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="280" X2="280" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="300" X2="300" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="320" X2="320" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="340" X2="340" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="360" X2="360" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="380" X2="380" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="400" X2="400" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="420" X2="420" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="440" X2="440" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="460" X2="460" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="480" X2="480" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="500" X2="500" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="3" X1="520" X2="520" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="540" X2="540" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="560" X2="560" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="580" X2="580" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="600" X2="600" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="620" X2="620" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="640" X2="640" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="660" X2="660" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="680" X2="680" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="700" X2="700" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="720" X2="720" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="740" X2="740" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="760" X2="760" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="780" X2="780" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="800" X2="800" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="820" X2="820" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="840" X2="840" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="860" X2="860" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="880" X2="880" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="900" X2="900" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="920" X2="920" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="940" X2="940" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="960" X2="960" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="980" X2="980" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="1000" X2="1000" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="1020" X2="1020" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" X1="1040" X2="1040" 
+                  Y1="0" Y2="{Binding ElementName=canvas, Path=ActualHeight}"/>
+
+
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="20" Y2="20" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="40" Y2="40" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="60" Y2="60" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="80" Y2="80" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="100" Y2="100" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="120" Y2="120" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="140" Y2="140" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="160" Y2="160" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="180" Y2="180" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="200" Y2="200" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="220" Y2="220" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="240" Y2="240" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="260" Y2="260" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="3" Y1="280" Y2="280" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="300" Y2="300" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="320" Y2="320" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="340" Y2="340" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="360" Y2="360" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="380" Y2="380" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="400" Y2="400" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="420" Y2="420" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="440" Y2="440" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="460" Y2="460" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="480" Y2="480" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="500" Y2="500" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="520" Y2="520" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+                <Line Stroke="Black" StrokeThickness="0.5" Y1="540" Y2="540" 
+                  X1="0" X2="{Binding ElementName=canvas, Path=ActualWidth}"/>
+            </Canvas>
+
+        </Canvas>
 
 
     </Grid>

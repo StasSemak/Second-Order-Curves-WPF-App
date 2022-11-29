@@ -22,11 +22,17 @@ namespace functions_app
     {
         string equation;
         CurveType curveType;
+        List<Brush> brushes;
+        List<Brush> usedBrushes;
+        int elements_count = 0;
+        int cell = 20;
 
         public MainWindow()
         {
             InitializeComponent();
-
+            brushes = new List<Brush>() { Brushes.Green, Brushes.Yellow, Brushes.Red, Brushes.Blue, Brushes.BlueViolet, Brushes.Brown, Brushes.Magenta, Brushes.Orange, 
+                Brushes.Plum, Brushes.YellowGreen };
+            usedBrushes = new List<Brush>();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -75,35 +81,35 @@ namespace functions_app
                 parabola_x_dot_match.Success) curveType = CurveType.Parabola;
         }
 
-        void DrawCircle() //needs coordinates positioning
+        void DrawCircle()
         {
             var equation_splitted = equation.Split("^2");
 
             double x = double.Parse(Regex.Match(equation_splitted[0], @"\d+").Value);
             double y = double.Parse(Regex.Match(equation_splitted[1], @"\d+").Value);
-            double r = Math.Sqrt(double.Parse(Regex.Match(equation_splitted[2], @"\d+").Value));
+            double r = Math.Sqrt(double.Parse(Regex.Match(equation_splitted[2], @"\d+").Value)) * 2;
 
             if (equation_splitted[0].Contains('+')) x *= -1;
             if (equation_splitted[1].Contains("y+")) y *= -1;
 
             Ellipse circle = new Ellipse();
-            circle.Stroke = Brushes.Black;
+            circle.Margin = new Thickness((26 - x) * cell - (r / 2) * cell, (14 - y) * cell - (r / 2) * cell, 0, 0);
+            circle.Stroke = SetBrush();
             circle.StrokeThickness = 3;
-            circle.Width = r * 30;
-            circle.Height = r * 30;
+            circle.Width = r * cell;
+            circle.Height = r * cell;
 
             canvas.Children.Add(circle);
+            elements_count++;
         }
-
-
-        void DrawEllipse() //needs coordinate positioning
+        void DrawEllipse()
         {
             double x, y, x0 = 0, y0 = 0;
             if(Regex.Match(equation, @"x\^2/\d+\+y\^2/\d+=1").Success)
             {
                 var equation_splitted = equation.Split('/', '+', '=');
-                x = Math.Sqrt(double.Parse(equation_splitted[1]));
-                y = Math.Sqrt(double.Parse(equation_splitted[3]));
+                x = Math.Sqrt(double.Parse(equation_splitted[1])) * 2;
+                y = Math.Sqrt(double.Parse(equation_splitted[3])) * 2;
             }
             else
             {
@@ -113,20 +119,22 @@ namespace functions_app
 
                 x0 = double.Parse(Regex.Match(equation_splitted[0], @"\d+").Value);
                 y0 = double.Parse(Regex.Match(sub_split[1], @"\d+").Value);
-                x = Math.Sqrt(double.Parse(Regex.Match(sub_split[0], @"\d+").Value));
-                y = Math.Sqrt(double.Parse(Regex.Match(sub_split2[0], @"\d+").Value));
+                x = Math.Sqrt(double.Parse(Regex.Match(sub_split[0], @"\d+").Value)) * 2;
+                y = Math.Sqrt(double.Parse(Regex.Match(sub_split2[0], @"\d+").Value)) * 2;
 
                 if (equation_splitted[0].Contains('+')) x0 *= -1;
                 if (sub_split[1].Contains('+')) y0 *= -1;
             }
 
             Ellipse ellipse = new Ellipse();
-            ellipse.Stroke = Brushes.Black;
+            ellipse.Margin = new Thickness((26 - x0) * cell - (x / 2) * cell, (14 - y0) * cell - (y / 2) * cell, 0, 0);
+            ellipse.Stroke = SetBrush();
             ellipse.StrokeThickness = 3;
-            ellipse.Width = x * 30;
-            ellipse.Height = y * 30;
+            ellipse.Width = x * cell;
+            ellipse.Height = y * cell;
 
             canvas.Children.Add(ellipse);
+            elements_count++;
         }
         void DrawHyperbole() //needs fix
         {
@@ -159,18 +167,35 @@ namespace functions_app
             {
                 double xp = i;
                 double yp = (y * Math.Sqrt(xp * xp - x * x)) / x;
-                polyline.Points.Add(new Point(xp, yp));
+                polyline.Points.Add(new Point(xp * 20, yp * 20));
             }
             for (double i = x; i < 50; i++)
             {
                 double xp = i;
                 double yp = -1.0 * ((y * Math.Sqrt(xp * xp - x * x)) / x);
-                polyline.Points.Add(new Point(xp, yp));
+                polyline.Points.Add(new Point(xp * 20, yp * 20));
             }
         }
         void DrawParabola()
         {
             input.Text = "parabola";
+        }
+
+        Brush SetBrush()
+        {
+            Random random = new();
+            Brush brush = brushes[random.Next(0, 9)];
+
+            if(usedBrushes.Count < 10)
+                while(usedBrushes.Contains(brush)) brush = brushes[random.Next(0, 9)];
+
+            if (usedBrushes.Count == 10)
+            {
+                usedBrushes.Clear();
+            }
+            usedBrushes.Add(brush);
+
+            return brush;
         }
 
         private void input_LostFocus(object sender, RoutedEventArgs e)
@@ -180,6 +205,12 @@ namespace functions_app
         private void input_GotFocus(object sender, RoutedEventArgs e)
         {
             if (input.Text == "Enter an equation") input.Text = string.Empty;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            canvas.Children.RemoveRange(canvas.Children.Count - elements_count, elements_count);
+            elements_count = 0;
         }
     }
 }
